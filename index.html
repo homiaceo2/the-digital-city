@@ -109,4 +109,10 @@ let entering=false;function travel(){if(entering)return;entering=true;tone(95,1.
 document.getElementById('skipIntro').onclick=()=>{window.location.href='city.html'};portal.onclick=travel;portal.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();travel()}};enter.onclick=travel;
 document.getElementById('replayIntro').onclick=()=>{index=0;show();document.getElementById('dialogue').style.display='block';portal.style.display='none';portal.classList.remove('entering');enter.style.display='none';document.getElementById('portalTip').style.display='none';arrival.classList.remove('hidden')};
 })();
+</script><script>
+(()=>{let audio=null,muted=false,beat=0,timer=null;
+function init(){if(muted)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();audio.resume();if(!timer)timer=setInterval(()=>{if(document.hidden)return;const midi=[48,55,60,64,55,67,60,72][beat++%8],t=audio.currentTime,o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.value=440*Math.pow(2,(midi-69)/12);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.023,t+.06);g.gain.exponentialRampToValueAtTime(.0001,t+.5);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.52)},420)}catch(e){}}
+function click(){try{if(!audio)return;const t=audio.currentTime,o=audio.createOscillator(),g=audio.createGain();o.type='triangle';o.frequency.value=720;g.gain.setValueAtTime(.06,t);g.gain.exponentialRampToValueAtTime(.001,t+.13);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.14)}catch(e){}}
+document.addEventListener('pointerdown',()=>init(),{capture:true});document.addEventListener('click',e=>{if(e.target.closest('button,[role="button"]'))click()},true);
+})();
 </script></body></html>
